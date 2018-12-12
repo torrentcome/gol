@@ -10,11 +10,12 @@ import android.view.WindowManager
 
 
 const val DEFAULT_SIZE = 30
-const val DEFAULT_ALIVE_COLOR = Color.WHITE
-const val DEFAULT_DEAD_COLOR = Color.BLACK
 
 class GOLView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
     SurfaceView(context, attrs, defStyleAttr), Runnable {
+
+    private var defaultLiveColor : Int = Color.parseColor("#718792")
+    private var defaultDeadColor : Int = Color.parseColor("#000a12")
 
     private lateinit var thread: Thread
     private var isRunning = false
@@ -47,7 +48,7 @@ class GOLView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
             if (!holder.surface.isValid)
                 continue
             try {
-                Thread.sleep(300)
+                Thread.sleep(1000)
             } catch (e: InterruptedException) {
             }
             val canvas = holder.lockCanvas()
@@ -83,7 +84,7 @@ class GOLView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
                     cell.x * columnWidth + columnWidth - 1,
                     cell.y * rowHeight + rowHeight - 1
                 )
-                p.color = if (cell.alive) DEFAULT_ALIVE_COLOR else DEFAULT_DEAD_COLOR
+                p.color = if (cell.alive) defaultLiveColor else defaultDeadColor
                 canvas.drawRect(r, p)
             }
         }
